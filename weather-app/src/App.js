@@ -5,15 +5,30 @@ import Weather from './components/weather.js'
 import Header from './components/Header.js'
 
 class App extends Component {
+  constructor(props){
+    super(props);
+    this.state={
+      value:'Plano',
+      style:{
+              'textDecoration':'none',
+              backgroundColor:'gold',
+              color:'#005689',
+              border:'2px solid #005689',
+              'fontFamily':'Jacques Francois',
+              'fontSize': '30px'
+      }
+    }
+
+  }
     render() {
       return (
         <div className="App">
-          <Header/>
+          <Header style={this.state.style}/>
           <div className='body'> 
-              <Weather/>
+              <Weather  style={this.state.style}/>
 
           </div>
-          <Footer/>
+          <Footer  style={this.state.style} />
         </div>
       )
   }
