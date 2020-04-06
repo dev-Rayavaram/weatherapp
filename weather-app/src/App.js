@@ -1,15 +1,18 @@
 import React,{Component} from 'react';
 import './App.css';
 import Footer from './components/footer.js'
-import Header from './components/header.js'
-import Main from './components/main.js'
+import Weather from './components/weather.js'
+import Header from './components/Header.js'
 
 class App extends Component {
     render() {
       return (
         <div className="App">
           <Header/>
-          <Main/>
+          <div className='body'> 
+              <Weather/>
+
+          </div>
           <Footer/>
         </div>
       )

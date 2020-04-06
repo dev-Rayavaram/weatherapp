@@ -30,14 +30,23 @@ html,body{
 
 }
 .body{
-  background-color: blue;
+  background-color:lavender;
   height:80%;
-  width:100%;
-  display: grid;
-  grid-template-columns: 2fr 10fr;
+  width:80%;
+  display: flex;
+  flex-direction: column;
+  rows:20% 80%;
   min-height: 100vh;
   min-width: 100vh;
-  background-color: khaki;
+}
+.left{
+  display: flex;
+  flex-direction: column;
+}
+.main{
+  display: grid;
+  order:2;
+  float:down;
 }
 .header,
  .footer{
