@@ -93,25 +93,53 @@ export default class Weather extends Component{
             //    </div>
             //   );
             // });
-            return this.state.fiveDayData.map((item) => {
-              return (
-                <div className='body'>
-                  {item.Date}
-                 
-                </div>
-              )
-            })
+             {return this.state.fiveDayData.map((item, index) => { return <SingleDay {... item}/> }) }
+
+
               }
               else{
                 return(
                       <div className='details'> 
+
                       </div>
                 )
               
               }
           }
     }
+     class SingleDay extends Component{
+       render(){
+         console.log("inside single item")
+         console.log(this.props)
+         let temp = this.props.Temperature
+         console.log("temp",temp)
+         return(
+           <React.Fragment>
+             <h3>Date:{this.props.Date}</h3>
+             <h3>Epochdate:{this.props.EpochDate}</h3>
+             {
+               Object.entries(this.props.Temperature).map((item,index)=>{return <TempObject key={index} value={item}/>}) 
+             }
+            <h4></h4> 
+            </React.Fragment>
+         )
+      }
+     
+     }
+     class TempObject extends Component{
+      render(){
+        console.log("inside TempObject item")
+        console.log(this.props)
+        return(
+          <React.Fragment>
+            <h3>Temperature Minimum:{this.props.Minimum}</h3>
+            <h3>Temperature Maximum:{this.props.Maximum}</h3>
 
+           </React.Fragment>
+        )
+     }
+    
+    }
     class OneDay extends Component {
       constructor(props){
         super(props);
