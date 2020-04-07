@@ -63,10 +63,15 @@ export default class Weather extends Component{
         componentDidMount() {
       
           let apiKey=process.env.REACT_APP_API_KEY
-            axios.get(`http://dataservice.accuweather.com/forecasts/v1/daily/5day/75094?apikey=${apiKey}`)
+          axios.headers={
+ 
+            'Access-Control-Allow-Origin': '*',
+            'Content-Type': 'application/json',
+         }
+            axios.get(`https://dataservice.accuweather.com/forecasts/v1/daily/5day/75094?apikey=${apiKey}`)
           .then(res => {
             const results = res.data;
-              console.log(results)
+            //  console.log(results)
               let items=[];
               let arrayList = results.DailyForecasts;
               for(let i=0; i<arrayList.length;i++){
@@ -112,15 +117,21 @@ export default class Weather extends Component{
          console.log("inside single item")
          console.log(this.props)
          let temp = this.props.Temperature
-         console.log("temp",temp)
+         let day = this.props.Day
+            console.log("this.props.Day",this.props.Day)
+      //   console.log("temp",temp)
          return(
            <React.Fragment>
              <h3>Date:{this.props.Date}</h3>
-             <h3>Epochdate:{this.props.EpochDate}</h3>
              {
-               Object.keys(this.props.Temperature).map((item,index)=>{return <TempObject key={index} value={item} data={this.props.Temperature[item]}/>}) 
+               Object.keys(this.props.Day).map((item,index)=>{return (
+                    <Day key={index} value={item} data={this.props.Day[item]}/>
+               )}) 
+             
              }
-            <h4></h4> 
+            <h4>
+              
+            </h4> 
             </React.Fragment>
          )
       }
@@ -139,6 +150,29 @@ export default class Weather extends Component{
            </React.Fragment>
         )
      }
+    
+    }
+    class Day extends Component{
+      render(){
+        console.log("inside Day item")
+        console.log("this.props.data",this.props.data)
+        console.log("this.props.value",this.props.value)
+          if( this.props.value==='Icon' ||this.props.value==='IconPhrase'){
+            return(
+              <React.Fragment>
+                <h3>Day {this.props.value}:{this.props.data} </h3>
+    
+               </React.Fragment>
+            )
+           }
+           else{
+            return(
+              <React.Fragment>    
+               </React.Fragment>
+            )
+
+           }
+      }
     
     }
     class OneDay extends Component {
@@ -161,13 +195,13 @@ export default class Weather extends Component{
           axios.get(`http://dataservice.accuweather.com/forecasts/v1/daily/1day/75094?apikey=${apiKey}`)
         .then(res => {
           const results = res.data;
-          console.log(results);
+      //    console.log(results);
           this.setState({onedayData:results});
           this.setState({isloaded:true})
           let dailyForecasts = this.state.onedayData["DailyForecasts"];
           const setDetail = (dailyForecasts) => {
             let localArr=[];
-            console.log("localArr",localArr);
+         //   console.log("localArr",localArr);
             localArr.push({
             date: dailyForecasts[0].Date,
             temperatureMin: dailyForecasts[0].Temperature.Minimum,
@@ -180,8 +214,8 @@ export default class Weather extends Component{
           } 
           setDetail(dailyForecasts);
 
-          console.log("detailObject",this.state.detailObject)
-          console.log(this.state.onedayData)
+         // console.log("detailObject",this.state.detailObject)
+        //  console.log(this.state.onedayData)
         })
         .catch(error => {
           console.log('there is an eror', error)
@@ -190,7 +224,7 @@ export default class Weather extends Component{
       }       
       render(){
         if(this.state.isloaded){
-          console.log("one day data" ,this.state.onedayData)
+         // console.log("one day data" ,this.state.onedayData)
           let headline = this.state.onedayData["Headline"];
               return(
                 <div className='body'>
