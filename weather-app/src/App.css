@@ -67,3 +67,9 @@ h1{
 .footer{
   align-items: baseline;
 }
+.headline{
+  display: inline;
+}
+.details{
+  display:block;
+}
