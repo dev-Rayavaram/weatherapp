@@ -1,4 +1,7 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Weather App
+
+
 
 ## Available Scripts
 
@@ -66,3 +69,13 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 ### `npm run build` fails to minify
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+
+### npm install react-router-dom
+
+### npm install 
+
+### references 
+    https://medium.com/@leizl.samano/how-to-make-a-weather-app-using-react-403c88252deb
+
+## Wireframe
+![wireframe](./weatherApp-wireframe.png)
