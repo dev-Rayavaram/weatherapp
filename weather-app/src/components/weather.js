@@ -118,7 +118,7 @@ export default class Weather extends Component{
              <h3>Date:{this.props.Date}</h3>
              <h3>Epochdate:{this.props.EpochDate}</h3>
              {
-               Object.entries(this.props.Temperature).map((item,index)=>{return <TempObject key={index} value={item}/>}) 
+               Object.keys(this.props.Temperature).map((item,index)=>{return <TempObject key={index} value={item} data={this.props.Temperature[item]}/>}) 
              }
             <h4></h4> 
             </React.Fragment>
@@ -129,11 +129,12 @@ export default class Weather extends Component{
      class TempObject extends Component{
       render(){
         console.log("inside TempObject item")
-        console.log(this.props)
+        console.log("this.props.key",this.props.data)
+        console.log("this.props.value",this.props.value)
+
         return(
           <React.Fragment>
-            <h3>Temperature Minimum:{this.props.Minimum}</h3>
-            <h3>Temperature Maximum:{this.props.Maximum}</h3>
+            <h3>Temperature {this.props.value}: {this.props.data.Value} {this.props.data.Unit}</h3>
 
            </React.Fragment>
         )
