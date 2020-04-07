@@ -135,16 +135,22 @@ export default class Weather extends Component{
           console.log("one day data" ,this.state.onedayData)
           let headline = this.state.onedayData["Headline"];
           let dailyForecasts = this.state.onedayData["DailyForecasts"];
-          
+
               console.log("headline",headline);
               console.log("dailyForecasts",dailyForecasts);
+              console.log("dailyForecasts at 0 index",dailyForecasts[0])
 
               return(
                 <div className='body'>
                   <div className='headline'>
-                  <h3>RIGHT NOW: </h3>
-                    <h4>{headline.Text}</h4><br></br>
-                    <h4>{headline.Category}</h4><br></br>
+                      <h3>RIGHT NOW: </h3>
+                      <h4>{headline.Text}</h4><br></br>
+                      <h4>{headline.Category}</h4><br></br>
+
+                  </div>
+                  <div className='details'>
+                      <h3>Detailed Report: </h3>
+                      {JSON.stringify(dailyForecasts[0])}
 
                   </div>
  
