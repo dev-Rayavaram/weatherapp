@@ -15,7 +15,7 @@ export default class Weather extends Component{
 
     }
     // let apiKey=process.env.REACT_APP_API_KEY
-      //api.openweathermap.org/data/2.5/weather?q=London,uk&APPID=0f13e039816ac1a8397eb8b68851cb9d
+      //api.openweathermap.org/data/2.5/weather?q=London,uk&APPID={apikey}
       // axios.get(`api.openweathermap.org/data/2.5/weather?APPID=${apiKey}`)
       //https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&appid={YOUR API KEY}
       render(){
@@ -51,7 +51,12 @@ export default class Weather extends Component{
         constructor(props){
           super(props);
           this.state={
-              fiveDayData:[]
+                fiveDayData:[],
+                temperature: '',
+                place: '',
+                description: '',
+                rain:'',
+                icon:''
           }
         }
         componentDidMount() {
@@ -77,8 +82,13 @@ export default class Weather extends Component{
          render(){
           return(
             <div className='body'>
-              <span> Inside five days</span>
-        
+                          {/* {console.log(typeof this.state.fiveDayData)}
+                          {console.log("inside five days")}
+                          {console.log(this.state.fiveDayData)} 
+                         {console.log("daily forecast",this.state.fiveDayData.DailyForecasts)} 
+              <span> {this.state.fiveDayData.DailyForecasts}</span>
+         */}
+            )
             </div>
 
           );
@@ -89,7 +99,13 @@ export default class Weather extends Component{
       constructor(props){
         super(props);
         this.state={
-            onedayData:[]
+            onedayData:[],
+            fiveDayData:[],
+            temperature: '',
+            place: '',
+            description: '',
+            rain:'',
+            icon:''
         }
       }
       componentDidMount() {
@@ -98,8 +114,9 @@ export default class Weather extends Component{
           axios.get(`http://dataservice.accuweather.com/forecasts/v1/daily/1day/75094?apikey=${apiKey}`)
         .then(res => {
           const results = res.data;
-          console.log(results)
+          console.log(results);
           this.setState({onedayData:results});
+          console.log(this.state.onedayData)
         })
         .catch(error => {
           console.log('there is an eror', error)
@@ -107,15 +124,18 @@ export default class Weather extends Component{
     
       }       
       render(){
+        console.log("one day data" ,this.state.onedayData)
+        let headline = this.state.onedayData["Headline"];
+        let dailyForecasts = this.state.onedayData["DailyForecasts"];
+
             return(
               <div className='body'>
-              <span> Inside oneday</span>
-
+             <h3>HI</h3>
               </div>
 
-            );
-            
 
-            }
+            )
+
+        }
      }
          
