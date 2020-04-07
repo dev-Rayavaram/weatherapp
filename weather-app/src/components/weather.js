@@ -67,12 +67,14 @@ export default class Weather extends Component{
           .then(res => {
             const results = res.data;
               console.log(results)
-              let items=[]
-              for(let i=0; i<results.length;i++){
+              let items=[];
+              let arrayList = results.DailyForecasts;
+              for(let i=0; i<arrayList.length;i++){
                 //  console.log(items[i].sectionName)
-                items.push(results[i]);
+                items.push(arrayList[i]);
                 }
                 this.setState({fiveDayData:items});
+                console.log("fiveDayData",this.state.fiveDayData);
                 this.setState({isloaded:true})
 
           })
@@ -83,16 +85,26 @@ export default class Weather extends Component{
         }       
          render(){
           if(this.state.isloaded){
-            console.log("five days data" ,this.state.fiveDayData)
-               return(
-                  <div className='body'>
-                 <h3>RIGHT NOW: </h3>    
-                  </div>
-                 )
+            // console.log("five days data" ,this.state.fiveDayData)
+            // return this.state.fiveDayData.map(item => {
+            //   return (
+            //    <div className='body'>
+            //      <h3>{item.Date}</h3>
+            //    </div>
+            //   );
+            // });
+            return this.state.fiveDayData.map((item) => {
+              return (
+                <div className='body'>
+                  {item.Date}
+                 
+                </div>
+              )
+            })
               }
               else{
                 return(
-                      <div className='body'> 
+                      <div className='details'> 
                       </div>
                 )
               
@@ -106,12 +118,12 @@ export default class Weather extends Component{
         this.state={
             isloaded:false,
             onedayData:[],
-            fiveDayData:[],
-            temperature: '',
-            place: '',
-            description: '',
-            rain:'',
-            icon:''
+            detailObject:[],
+            date:'',
+            temperatureMin: '',
+            temperatureMax: '',
+            dayPrecpType:'',
+            nightPrecepType:''
         }
       }
       componentDidMount() {
@@ -123,6 +135,23 @@ export default class Weather extends Component{
           console.log(results);
           this.setState({onedayData:results});
           this.setState({isloaded:true})
+          let dailyForecasts = this.state.onedayData["DailyForecasts"];
+          const setDetail = (dailyForecasts) => {
+            let localArr=[];
+            console.log("localArr",localArr);
+            localArr.push({
+            date: dailyForecasts[0].Date,
+            temperatureMin: dailyForecasts[0].Temperature.Minimum,
+            temperatureMax: dailyForecasts[0].Temperature.Maximum,
+
+            dayPrecpType: dailyForecasts[0].Day.PrecipitationType,
+            nightPrecepType: dailyForecasts[0].Night.PrecipitationType
+          });
+          this.setState({detailObject:localArr})        
+          } 
+          setDetail(dailyForecasts);
+
+          console.log("detailObject",this.state.detailObject)
           console.log(this.state.onedayData)
         })
         .catch(error => {
@@ -134,12 +163,6 @@ export default class Weather extends Component{
         if(this.state.isloaded){
           console.log("one day data" ,this.state.onedayData)
           let headline = this.state.onedayData["Headline"];
-          let dailyForecasts = this.state.onedayData["DailyForecasts"];
-
-              console.log("headline",headline);
-              console.log("dailyForecasts",dailyForecasts);
-              console.log("dailyForecasts at 0 index",dailyForecasts[0])
-
               return(
                 <div className='body'>
                   <div className='headline'>
@@ -150,19 +173,15 @@ export default class Weather extends Component{
                   </div>
                   <div className='details'>
                       <h3>Detailed Report: </h3>
-                      {JSON.stringify(dailyForecasts[0])}
-
+                         <p>{JSON.stringify(this.state.onedayData["DailyForecasts"][0])}</p>                     
                   </div>
  
-                </div>
-  
-  
+                </div>  
               )
             }
             else{
               return(
                     <div className='body'>
-
                     </div>
               )
             
