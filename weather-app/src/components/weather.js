@@ -51,6 +51,7 @@ export default class Weather extends Component{
         constructor(props){
           super(props);
           this.state={
+                isloaded:false,
                 fiveDayData:[],
                 temperature: '',
                 place: '',
@@ -72,6 +73,7 @@ export default class Weather extends Component{
                 items.push(results[i]);
                 }
                 this.setState({fiveDayData:items});
+                this.setState({isloaded:true})
 
           })
           .catch(error => {
@@ -80,25 +82,29 @@ export default class Weather extends Component{
       
         }       
          render(){
-          return(
-            <div className='body'>
-                          {/* {console.log(typeof this.state.fiveDayData)}
-                          {console.log("inside five days")}
-                          {console.log(this.state.fiveDayData)} 
-                         {console.log("daily forecast",this.state.fiveDayData.DailyForecasts)} 
-              <span> {this.state.fiveDayData.DailyForecasts}</span>
-         */}
-            )
-            </div>
-
-          );
-        }
+          if(this.state.isloaded){
+            console.log("five days data" ,this.state.fiveDayData)
+               return(
+                  <div className='body'>
+                 <h3>RIGHT NOW: </h3>    
+                  </div>
+                 )
+              }
+              else{
+                return(
+                      <div className='body'> 
+                      </div>
+                )
+              
+              }
+          }
     }
 
     class OneDay extends Component {
       constructor(props){
         super(props);
         this.state={
+            isloaded:false,
             onedayData:[],
             fiveDayData:[],
             temperature: '',
@@ -116,6 +122,7 @@ export default class Weather extends Component{
           const results = res.data;
           console.log(results);
           this.setState({onedayData:results});
+          this.setState({isloaded:true})
           console.log(this.state.onedayData)
         })
         .catch(error => {
@@ -124,17 +131,37 @@ export default class Weather extends Component{
     
       }       
       render(){
-        console.log("one day data" ,this.state.onedayData)
-        let headline = this.state.onedayData["Headline"];
-        let dailyForecasts = this.state.onedayData["DailyForecasts"];
+        if(this.state.isloaded){
+          console.log("one day data" ,this.state.onedayData)
+          let headline = this.state.onedayData["Headline"];
+          let dailyForecasts = this.state.onedayData["DailyForecasts"];
+          
+              console.log("headline",headline);
+              console.log("dailyForecasts",dailyForecasts);
 
-            return(
-              <div className='body'>
-             <h3>HI</h3>
-              </div>
+              return(
+                <div className='body'>
+                  <div className='headline'>
+                  <h3>RIGHT NOW: </h3>
+                    <h4>{headline.Text}</h4><br></br>
+                    <h4>{headline.Category}</h4><br></br>
 
+                  </div>
+ 
+                </div>
+  
+  
+              )
+            }
+            else{
+              return(
+                    <div className='body'>
 
-            )
+                    </div>
+              )
+            
+            }
+
 
         }
      }
