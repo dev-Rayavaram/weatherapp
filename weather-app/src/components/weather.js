@@ -2,13 +2,13 @@ import React,{Component} from 'react';
 import {Route,Switch,Link,BrowserRouter as Router} from 'react-router-dom'
 import axios from 'axios';
 
-
+let DaysOfweek=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']
 export default class Weather extends Component{
     constructor(props){
       super(props);
       this.state={
           onedayData:[],
-          fiveDayData:[]
+          fiveDayData:[],
       }
     }
      onMouseClick=(place)=>{
@@ -26,10 +26,10 @@ export default class Weather extends Component{
             <nav>
                 <ul>
                   <li>
-                  <Link to="/day"  style={this.props.style} onClick={()=>this.onMouseClick('5day')} >5 day forecast</Link>
+                  <Link to="/day"  style={this.props.style} onClick={()=>this.onMouseClick('5day')} >5 day Forecast</Link>
                 </li>
                 <li>
-                  <Link to="/"  style={this.props.style} onClick={()=>this.onMouseClick('oneday')}>Hourly forecast</Link>
+                  <Link to="/"  style={this.props.style} onClick={()=>this.onMouseClick('oneday')}>Today's Forecast</Link>
                 </li>
                  </ul>
             </nav>
@@ -52,12 +52,8 @@ export default class Weather extends Component{
           super(props);
           this.state={
                 isloaded:false,
-                fiveDayData:[],
-                temperature: '',
-                place: '',
-                description: '',
-                rain:'',
-                icon:''
+                fiveDayData:[]
+                
           }
         }
         componentDidMount() {
@@ -79,7 +75,7 @@ export default class Weather extends Component{
                 items.push(arrayList[i]);
                 }
                 this.setState({fiveDayData:items});
-                console.log("fiveDayData",this.state.fiveDayData);
+             //   console.log("fiveDayData",this.state.fiveDayData);
                 this.setState({isloaded:true})
 
           })
@@ -98,7 +94,7 @@ export default class Weather extends Component{
             //    </div>
             //   );
             // });
-             {return this.state.fiveDayData.map((item, index) => { return <SingleDay {... item}/> }) }
+             return this.state.fiveDayData.map((item, index) => { return <SingleDay {... item}/> }) 
 
 
               }
@@ -114,18 +110,19 @@ export default class Weather extends Component{
     }
      class SingleDay extends Component{
        render(){
-         console.log("inside single item")
-         console.log(this.props)
-         let temp = this.props.Temperature
-         let day = this.props.Day
-            console.log("this.props.Day",this.props.Day)
+         console.log("inside SingleDay item")
+      //   console.log(this.props)
+         //   console.log("this.props.Day",this.props.Day)
       //   console.log("temp",temp)
+          const date = new Date(this.props.Date);
+          const day = date.getDay();
+          console.log("Day of week is",day)
          return(
            <React.Fragment>
-             <h3>Date:{this.props.Date}</h3>
+             <h3>Date:{DaysOfweek[day]}</h3>
              {
                Object.keys(this.props.Day).map((item,index)=>{return (
-                    <Day key={index} value={item} data={this.props.Day[item]}/>
+                    <DayIcons key={index} value={item} data={this.props.Day[item]}/>
                )}) 
              
              }
@@ -139,9 +136,9 @@ export default class Weather extends Component{
      }
      class TempObject extends Component{
       render(){
-        console.log("inside TempObject item")
-        console.log("this.props.key",this.props.data)
-        console.log("this.props.value",this.props.value)
+        // console.log("inside TempObject item")
+        // console.log("this.props.key",this.props.data)
+        // console.log("this.props.value",this.props.value)
 
         return(
           <React.Fragment>
@@ -152,11 +149,11 @@ export default class Weather extends Component{
      }
     
     }
-    class Day extends Component{
+    class DayIcons extends Component{
       render(){
-        console.log("inside Day item")
-        console.log("this.props.data",this.props.data)
-        console.log("this.props.value",this.props.value)
+        // console.log("inside DayIcons item")
+        // console.log("this.props.data",this.props.data)
+        // console.log("this.props.value",this.props.value)
           if( this.props.value==='Icon' ||this.props.value==='IconPhrase'){
             return(
               <React.Fragment>
@@ -180,14 +177,9 @@ export default class Weather extends Component{
         super(props);
         this.state={
             isloaded:false,
-            onedayData:[],
-            detailObject:[],
-            date:'',
-            temperatureMin: '',
-            temperatureMax: '',
-            dayPrecpType:'',
-            nightPrecepType:''
+            onedayData:[]
         }
+           
       }
       componentDidMount() {
       
@@ -198,24 +190,7 @@ export default class Weather extends Component{
       //    console.log(results);
           this.setState({onedayData:results});
           this.setState({isloaded:true})
-          let dailyForecasts = this.state.onedayData["DailyForecasts"];
-          const setDetail = (dailyForecasts) => {
-            let localArr=[];
-         //   console.log("localArr",localArr);
-            localArr.push({
-            date: dailyForecasts[0].Date,
-            temperatureMin: dailyForecasts[0].Temperature.Minimum,
-            temperatureMax: dailyForecasts[0].Temperature.Maximum,
-
-            dayPrecpType: dailyForecasts[0].Day.PrecipitationType,
-            nightPrecepType: dailyForecasts[0].Night.PrecipitationType
-          });
-          this.setState({detailObject:localArr})        
-          } 
-          setDetail(dailyForecasts);
-
-         // console.log("detailObject",this.state.detailObject)
-        //  console.log(this.state.onedayData)
+          
         })
         .catch(error => {
           console.log('there is an eror', error)
@@ -224,19 +199,33 @@ export default class Weather extends Component{
       }       
       render(){
         if(this.state.isloaded){
-         // console.log("one day data" ,this.state.onedayData)
+          console.log("one day data" ,this.state.onedayData)
+         
           let headline = this.state.onedayData["Headline"];
+          const date = new Date(headline.EffectiveDate);
+          const day = date.getDay();
+          
+          let forecasts = this.state.onedayData["DailyForecasts"];
+
               return(
                 <div className='body'>
                   <div className='headline'>
-                      <h3>RIGHT NOW: </h3>
+                      <h3>Date: {DaysOfweek[day] }</h3>
                       <h4>{headline.Text}</h4><br></br>
                       <h4>{headline.Category}</h4><br></br>
 
                   </div>
                   <div className='details'>
                       <h3>Detailed Report: </h3>
-                         <p>{JSON.stringify(this.state.onedayData["DailyForecasts"][0])}</p>                     
+                      <React.Fragment>
+                      {
+                        Object.keys(forecasts).map((item,index)=>{return (
+                        <FullDayDetail key={index} value={item} data={forecasts[item]}/>
+                        )}) 
+             
+                      }
+
+            </React.Fragment>                                             
                   </div>
  
                 </div>  
@@ -249,8 +238,27 @@ export default class Weather extends Component{
               )
             
             }
-
-
         }
      }
-         
+     class FullDayDetail extends Component{
+      render(){
+         console.log("inside FullDayDetail item")
+         console.log("this.FullDayDetail.key",this.props.data)
+         console.log("this.FullDayDetail.value",this.props.value)
+
+        return(
+          <React.Fragment>
+             {
+               Object.keys(this.props.data.Day).map((item,index)=>{return (
+                    <DayIcons key={index} value={item} data={this.props.data.Day[item]}/>
+               )}) 
+             
+             }
+            <h4>
+              
+            </h4> 
+            </React.Fragment>
+        )
+     }
+    
+    }      
