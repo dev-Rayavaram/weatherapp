@@ -88,22 +88,12 @@ export default class Weather extends Component{
         }       
          render(){
           if(this.state.isloaded){
-            // console.log("five days data" ,this.state.fiveDayData)
-            // return this.state.fiveDayData.map(item => {
-            //   return (
-            //    <div className='body'>
-            //      <h3>{item.Date}</h3>
-            //    </div>
-            //   );
-            // });
              return this.state.fiveDayData.map((item, index) => { return(
               <>
               <h3> Day :{index}</h3>
               <SingleDay {... item}/>
               </> 
               ) }) 
-
-
               }
               else{
                 return(
@@ -114,72 +104,6 @@ export default class Weather extends Component{
               
               }
           }
-    }
-     class SingleDay extends Component{
-       render(){
-         console.log("inside SingleDay item")
-        console.log(this.props)
-          const date = new Date(this.props.dt);
-          console.log("SingleDay date:",date)
-          let day = date.getDay();
-          console.log("SingleDay day is",day)
-          const tempMin = this.props.temp["min"];
-          const tempMax = this.props.temp["max"];
-          const tempMinF = (((tempMin-273.15)*1.8)+32).toFixed(2)
-          const tempMaxF = (((tempMax-273.15)*1.8)+32).toFixed(2)
-
-          console.log("Day of week is",day)
-         return(
-           <React.Fragment>
-             <h3>Day: {DaysOfweek[day]}</h3>
-             <h3>Temperature Minimum: {tempMinF} F</h3>
-             <h3>Temperature Maximum: { tempMaxF} F</h3>
-
-             {
-               Object.keys(this.props["weather"]).map((item,index)=>{return (
-                    <DayIcons key={index} value={item} data={this.props["weather"][item]}/>
-               )}) 
-             
-             }
-            <h4>
-              
-            </h4> 
-            </React.Fragment>
-         )
-      }
-     
-     }
-     class TempObject extends Component{
-      render(){
-        // console.log("inside TempObject item")
-        // console.log("this.props.key",this.props.data)
-        // console.log("this.props.value",this.props.value)
-
-        return(
-          <React.Fragment>
-            <h3>Temperature {this.props.value}: {this.props.data.Value} {this.props.data.Unit}</h3>
-
-           </React.Fragment>
-        )
-     }
-    
-    }
-    class DayIcons extends Component{
-      render(){
-        console.log("inside DayIcons item")
-         console.log("this.props.data",this.props.data)
-            let url = `http://openweathermap.org/img/wn/${this.props.data.icon}@2x.png`;
-            
-            console.log("url",url)
-            return(
-              <React.Fragment>
-                <img src={url} alt='icon' width='100px' height='100px'/>
-                <h3>Description:{this.props.data.description} </h3>
-    
-               </React.Fragment>
-            )
-       }
-    
     }
     class OneDay extends Component {
       constructor(props){
@@ -256,17 +180,30 @@ export default class Weather extends Component{
             }
         }
      }
-     class FullDayDetail extends Component{
-      render(){
-         console.log("inside FullDayDetail item")
-         console.log("this.FullDayDetail.data",this.props.data)
-         console.log("this.FullDayDetail.value",this.props.value)
+ 
+     class SingleDay extends Component{
+       render(){
+         console.log("inside SingleDay item")
+        console.log(this.props)
+          const date = new Date(this.props.dt);
+          console.log("SingleDay date:",date)
+          let day = date.getDay();
+          console.log("SingleDay day is",day)
+          const tempMin = this.props.temp["min"];
+          const tempMax = this.props.temp["max"];
+          const tempMinF = (((tempMin-273.15)*1.8)+32).toFixed(2)
+          const tempMaxF = (((tempMax-273.15)*1.8)+32).toFixed(2)
 
-        return(
-          <React.Fragment>
+          console.log("Day of week is",day)
+         return(
+           <React.Fragment>
+             <h3>Day: {DaysOfweek[day]}</h3>
+             <h3>Temperature Minimum: {tempMinF} F</h3>
+             <h3>Temperature Maximum: { tempMaxF} F</h3>
+
              {
-               Object.keys(this.props.data.Day).map((item,index)=>{return (
-                    <DayIcons key={index} value={item} data={this.props.data}/>
+               Object.keys(this.props["weather"]).map((item,index)=>{return (
+                    <DayIcons key={index} value={item} data={this.props["weather"][item]}/>
                )}) 
              
              }
@@ -274,7 +211,26 @@ export default class Weather extends Component{
               
             </h4> 
             </React.Fragment>
-        )
+         )
+      }
+     
      }
+  
+    class DayIcons extends Component{
+      render(){
+        console.log("inside DayIcons item")
+         console.log("this.props.data",this.props.data)
+            let url = `http://openweathermap.org/img/wn/${this.props.data.icon}@2x.png`;
+            
+            console.log("url",url)
+            return(
+              <React.Fragment>
+                <img src={url} alt='icon' width='100px' height='100px'/>
+                <h3>Description:{this.props.data.description} </h3>
     
-    }      
+               </React.Fragment>
+            )
+       }
+    
+    }
+  
