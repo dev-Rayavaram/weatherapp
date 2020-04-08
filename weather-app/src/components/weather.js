@@ -64,12 +64,14 @@ export default class Weather extends Component{
             'Access-Control-Allow-Origin': '*',
             'Content-Type': 'application/json',
          }
-            axios.get(`https://dataservice.accuweather.com/forecasts/v1/daily/5day/75094?apikey=${apiKey}`)
+         //https://dataservice.accuweather.com/forecasts/v1/daily/5day/75094?apikey=${apiKey}
+         axios.get(`https://api.openweathermap.org/data/2.5/onecall?lat=51.5085&lon=-0.1257&appid=${apiKey}`)
           .then(res => {
             const results = res.data;
-            //  console.log(results)
+            console.log("inside openweather map --------------------------------------")
+             console.log(results)
               let items=[];
-              let arrayList = results.DailyForecasts;
+              let arrayList = results.daily;
               for(let i=0; i<arrayList.length;i++){
                 //  console.log(items[i].sectionName)
                 items.push(arrayList[i]);
@@ -111,18 +113,20 @@ export default class Weather extends Component{
      class SingleDay extends Component{
        render(){
          console.log("inside SingleDay item")
-      //   console.log(this.props)
-         //   console.log("this.props.Day",this.props.Day)
+        console.log(this.props)
       //   console.log("temp",temp)
-          const date = new Date(this.props.Date);
+          const date = new Date(this.props.dt);
           const day = date.getDay();
           console.log("Day of week is",day)
          return(
            <React.Fragment>
              <h3>Date:{DaysOfweek[day]}</h3>
+             <h3>Temperature Minimum: {this.props.temp["min"]}</h3>
+             <h3>Temperature Maximum: {this.props.temp["max"]}</h3>
+
              {
-               Object.keys(this.props.Day).map((item,index)=>{return (
-                    <DayIcons key={index} value={item} data={this.props.Day[item]}/>
+               Object.keys(this.props["weather"]).map((item,index)=>{return (
+                    <DayIcons key={index} value={item} data={this.props["weather"][item]}/>
                )}) 
              
              }
@@ -151,38 +155,19 @@ export default class Weather extends Component{
     }
     class DayIcons extends Component{
       render(){
-        // console.log("inside DayIcons item")
-        // console.log("this.props.data",this.props.data)
-        // console.log("this.props.value",this.props.value)
-          if( this.props.value==='Icon' ){
-            var twodigit = this.props.data >= 10 ? this.props.data : "0"+(this.props.data).toString();
-            let url = ` https://developer.accuweather.com/sites/default/files/${twodigit}-s.png`;
-           
-            console.log("icon url",url)
-
+        console.log("inside DayIcons item")
+         console.log("this.props.data",this.props.data)
+            let url = `http://openweathermap.org/img/wn/${this.props.data.icon}@2x.png`;
+            
+            console.log("url",url)
             return(
               <React.Fragment>
                 <img src={url} alt='icon' width='100px' height='100px'/>
+                <h3>Description:{this.props.data.description} </h3>
     
                </React.Fragment>
             )
-           }
-           else if(this.props.value==='IconPhrase'){
-            return(
-              <React.Fragment>
-                <h3>{this.props.value}:{this.props.data} </h3>
-    
-               </React.Fragment>
-            )            
-           }
-           else{
-            return(
-              <React.Fragment>    
-               </React.Fragment>
-            )
-
-           }
-      }
+       }
     
     }
     class OneDay extends Component {
@@ -197,7 +182,12 @@ export default class Weather extends Component{
       componentDidMount() {
       
         let apiKey=process.env.REACT_APP_API_KEY
-          axios.get(`http://dataservice.accuweather.com/forecasts/v1/daily/1day/75094?apikey=${apiKey}`)
+        axios.headers={
+          'Access-Control-Allow-Origin': '*',
+          'Content-Type': 'application/json',
+       }
+       //https://dataservice.accuweather.com/forecasts/v1/daily/5day/75094?apikey=${apiKey}
+         axios.get(`https://api.openweathermap.org/data/2.5/onecall?lat=51.5085&lon=-0.1257&appid=${apiKey}`)
         .then(res => {
           const results = res.data;
       //    console.log(results);
@@ -214,26 +204,24 @@ export default class Weather extends Component{
         if(this.state.isloaded){
           console.log("one day data" ,this.state.onedayData)
          
-          let headline = this.state.onedayData["Headline"];
-          const date = new Date(headline.EffectiveDate);
+          let headline = this.state.onedayData["current"];
+          const date = new Date(headline.dt);
           const day = date.getDay();
           
-          let forecasts = this.state.onedayData["DailyForecasts"];
+          let forecasts = this.state.onedayData["current"]["weather"];
 
               return(
                 <div className='body'>
                   <div className='headline'>
-                      <h3>Date: {DaysOfweek[day] }</h3>
-                      <h4>{headline.Text}</h4><br></br>
-                      <h4>{headline.Category}</h4><br></br>
+                      <h3>Date: {DaysOfweek[day] }  </h3>
+                      <h4>Temperature : {headline.temp}</h4><br></br>
 
                   </div>
                   <div className='details'>
-                      <h3>Detailed Report: </h3>
                       <React.Fragment>
                       {
                         Object.keys(forecasts).map((item,index)=>{return (
-                        <FullDayDetail key={index} value={item} data={forecasts[item]}/>
+                        <DayIcons key={index} value={item} data={forecasts[item]}/>
                         )}) 
              
                       }
@@ -256,14 +244,14 @@ export default class Weather extends Component{
      class FullDayDetail extends Component{
       render(){
          console.log("inside FullDayDetail item")
-         console.log("this.FullDayDetail.key",this.props.data)
+         console.log("this.FullDayDetail.data",this.props.data)
          console.log("this.FullDayDetail.value",this.props.value)
 
         return(
           <React.Fragment>
              {
                Object.keys(this.props.data.Day).map((item,index)=>{return (
-                    <DayIcons key={index} value={item} data={this.props.data.Day[item]}/>
+                    <DayIcons key={index} value={item} data={this.props.data}/>
                )}) 
              
              }
