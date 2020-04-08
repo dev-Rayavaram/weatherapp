@@ -72,7 +72,7 @@ export default class Weather extends Component{
              console.log(results)
               let items=[];
               let arrayList = results.daily;
-              for(let i=0; i<arrayList.length;i++){
+              for(let i=0; i<5;i++){
                 //  console.log(items[i].sectionName)
                 items.push(arrayList[i]);
                 }
@@ -96,7 +96,12 @@ export default class Weather extends Component{
             //    </div>
             //   );
             // });
-             return this.state.fiveDayData.map((item, index) => { return <SingleDay {... item}/> }) 
+             return this.state.fiveDayData.map((item, index) => { return(
+              <>
+              <h3> Day :{index}</h3>
+              <SingleDay {... item}/>
+              </> 
+              ) }) 
 
 
               }
@@ -114,9 +119,10 @@ export default class Weather extends Component{
        render(){
          console.log("inside SingleDay item")
         console.log(this.props)
-      //   console.log("temp",temp)
           const date = new Date(this.props.dt);
-          const day = date.getDay();
+          console.log("SingleDay date:",date)
+          let day = date.getDay();
+          console.log("SingleDay day is",day)
           const tempMin = this.props.temp["min"];
           const tempMax = this.props.temp["max"];
           const tempMinF = (((tempMin-273.15)*1.8)+32).toFixed(2)
@@ -125,7 +131,7 @@ export default class Weather extends Component{
           console.log("Day of week is",day)
          return(
            <React.Fragment>
-             <h3>Date:{DaysOfweek[day]}</h3>
+             <h3>Day: {DaysOfweek[day]}</h3>
              <h3>Temperature Minimum: {tempMinF} F</h3>
              <h3>Temperature Maximum: { tempMaxF} F</h3>
 
@@ -210,8 +216,10 @@ export default class Weather extends Component{
           console.log("one day data" ,this.state.onedayData)
          
           let headline = this.state.onedayData["current"];
+          console.log("headline.dt: ",headline.dt)
           const date = new Date(headline.dt);
-          const day = date.getDay();
+          console.log("Date is:",date)
+          let day = date.getDay();
           const tempC = headline.temp;
 
           const tempCF = (((tempC-273.15)*1.8)+32).toFixed(2);
