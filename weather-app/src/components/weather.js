@@ -154,13 +154,26 @@ export default class Weather extends Component{
         // console.log("inside DayIcons item")
         // console.log("this.props.data",this.props.data)
         // console.log("this.props.value",this.props.value)
-          if( this.props.value==='Icon' ||this.props.value==='IconPhrase'){
+          if( this.props.value==='Icon' ){
+            var twodigit = this.props.data >= 10 ? this.props.data : "0"+(this.props.data).toString();
+            let url = ` https://developer.accuweather.com/sites/default/files/${twodigit}-s.png`;
+           
+            console.log("icon url",url)
+
             return(
               <React.Fragment>
-                <h3>Day {this.props.value}:{this.props.data} </h3>
+                <img src={url} alt='icon' width='100px' height='100px'/>
     
                </React.Fragment>
             )
+           }
+           else if(this.props.value==='IconPhrase'){
+            return(
+              <React.Fragment>
+                <h3>{this.props.value}:{this.props.data} </h3>
+    
+               </React.Fragment>
+            )            
            }
            else{
             return(
