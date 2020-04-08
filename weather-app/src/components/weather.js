@@ -117,12 +117,17 @@ export default class Weather extends Component{
       //   console.log("temp",temp)
           const date = new Date(this.props.dt);
           const day = date.getDay();
+          const tempMin = this.props.temp["min"];
+          const tempMax = this.props.temp["max"];
+          const tempMinF = (((tempMin-273.15)*1.8)+32).toFixed(2)
+          const tempMaxF = (((tempMax-273.15)*1.8)+32).toFixed(2)
+
           console.log("Day of week is",day)
          return(
            <React.Fragment>
              <h3>Date:{DaysOfweek[day]}</h3>
-             <h3>Temperature Minimum: {this.props.temp["min"]}</h3>
-             <h3>Temperature Maximum: {this.props.temp["max"]}</h3>
+             <h3>Temperature Minimum: {tempMinF} F</h3>
+             <h3>Temperature Maximum: { tempMaxF} F</h3>
 
              {
                Object.keys(this.props["weather"]).map((item,index)=>{return (
@@ -207,14 +212,16 @@ export default class Weather extends Component{
           let headline = this.state.onedayData["current"];
           const date = new Date(headline.dt);
           const day = date.getDay();
-          
+          const tempC = headline.temp;
+
+          const tempCF = (((tempC-273.15)*1.8)+32).toFixed(2);
           let forecasts = this.state.onedayData["current"]["weather"];
 
               return(
                 <div className='body'>
                   <div className='headline'>
                       <h3>Date: {DaysOfweek[day] }  </h3>
-                      <h4>Temperature : {headline.temp}</h4><br></br>
+                      <h4>Temperature : {tempCF} F</h4><br></br>
 
                   </div>
                   <div className='details'>
