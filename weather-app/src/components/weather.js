@@ -1,7 +1,7 @@
 import React,{Component} from 'react';
 import {Route,Switch,Link,BrowserRouter as Router} from 'react-router-dom'
 import axios from 'axios';
-
+let daysOfWeek=["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
 export default class Weather extends Component{
     constructor(props){
       super(props);
@@ -93,7 +93,7 @@ export default class Weather extends Component{
                       <div className='body2'>
                           {this.state.fiveDayData.map((item, index) => { return(  
                               <div className='week'>
-                                  <h3> Day :{index}</h3>
+                                  <h3> {daysOfWeek[index]}</h3>
                                   <SingleEntry {... item}/>
                               </div>
                             ) })           
