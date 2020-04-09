@@ -2,7 +2,6 @@ import React,{Component} from 'react';
 import {Route,Switch,Link,BrowserRouter as Router} from 'react-router-dom'
 import axios from 'axios';
 
-let DaysOfweek=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']
 export default class Weather extends Component{
     constructor(props){
       super(props);
@@ -29,7 +28,7 @@ export default class Weather extends Component{
                   <Link to="/day"  style={this.props.style} onClick={()=>this.onMouseClick('5day')} >5 day Forecast</Link>
                 </li>
                 <li>
-                  <Link to="/"  style={this.props.style} onClick={()=>this.onMouseClick('oneday')}>Today's Forecast</Link>
+                  <Link to="/"  style={this.props.style} onClick={()=>this.onMouseClick('oneday')}>Hourly Forecast</Link>
                 </li>
                  </ul>
             </nav>
@@ -90,6 +89,7 @@ export default class Weather extends Component{
           if(this.state.isloaded){
              return this.state.fiveDayData.map((item, index) => { return(
               <>
+              <h2>Forecast for Next 5 Days:<br></br></h2>
               <h3> Day :{index}</h3>
               <SingleEntry {... item}/>
               </> 
@@ -141,9 +141,6 @@ export default class Weather extends Component{
          
           let headline = this.state.onedayData["current"];
        //   console.log("headline.dt: ",headline.dt)
-          const date = new Date(headline.dt);
-       //   console.log("Date is:",date)
-          let day = date.getDay();
           const tempC = headline.temp;
 
           const tempCF = (((tempC-273.15)*1.8)+32).toFixed(2);
@@ -151,9 +148,10 @@ export default class Weather extends Component{
 
               return(
                 <div className='body'>
+                      <h2>Forecast for Next 48 Hours:<br></br></h2>
+
                   <div className='headline'>
-                      <h3>Date: {DaysOfweek[day] }  </h3>
-                      <h4>Temperature : {tempCF} F</h4><br></br>
+                      <h4> Current temperature : {tempCF} F</h4><br></br>
                       <React.Fragment>
                       {
                         Object.keys(forecasts).map((item,index)=>{return (
@@ -208,9 +206,7 @@ export default class Weather extends Component{
        render(){
          console.log("inside SingleEntry item")
       //  console.log(this.props)
-          const date = new Date(this.props.dt);
        //   console.log("SingleEntry date:",date)
-          let day = date.getDay();
       //    console.log("SingleEntry day is",day)
           const tempMin = this.props.temp["min"];
           const tempMax = this.props.temp["max"];
@@ -220,7 +216,6 @@ export default class Weather extends Component{
       //    console.log("Day of week is",day)
          return(
            <React.Fragment>
-             <h3>Day: {DaysOfweek[day]}</h3>
              <h3>Temperature Minimum: {tempMinF} F</h3>
              <h3>Temperature Maximum: { tempMaxF} F</h3>
 
