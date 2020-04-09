@@ -76,7 +76,6 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 
 ### references 
     https://medium.com/@leizl.samano/how-to-make-a-weather-app-using-react-403c88252deb
-    https://stackoverflow.com/questions/8043026/how-to-format-numbers-by-prepending-0-to-single-digit-numbers
 
 ## Wireframe
 ![wireframe](./weatherApp-wireframe.png)
