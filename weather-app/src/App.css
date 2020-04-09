@@ -31,11 +31,20 @@ html,body{
 }
 .body{
   background-color:lavender;
-  height:80%;
-  width:80%;
+  height:100%;
+  width:100%;
   display: flex;
   flex-direction: column;
   rows:20% 80%;
+  min-height: 100vh;
+  min-width: 100vh;
+}
+.body2{
+  background-color:lavender;
+  height:100%;
+  width:100%;
+  display: flex;
+  flex-direction: row;
   min-height: 100vh;
   min-width: 100vh;
 }
@@ -75,7 +84,28 @@ h2{
   display:flex;
   flex-direction: row;
 }
+.headline2{
+  display:flex;
+  flex-direction: column;
+}
 .details{
   display:flex;
   flex-direction: column;
+  border:1px solid black;
+}
+.week{
+  display:grid;
+  grid-auto-flow: column;
+  width:20%;
+  overflow-y: visible;
+  grid-template-columns: repeat(5,1fr);
+}
+.hourly{
+  display:grid;
+  grid-auto-flow: column;
+  overflow-y: visible;
+  grid-template-columns: repeat(6,1fr);
+  grid-template-rows: repeat(8,1fr);
+  border: 2px solid black;
+
 }
