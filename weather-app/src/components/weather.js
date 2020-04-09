@@ -68,8 +68,8 @@ export default class Weather extends Component{
          axios.get(`https://api.openweathermap.org/data/2.5/onecall?lat=51.5085&lon=-0.1257&appid=${apiKey}`)
           .then(res => {
             const results = res.data;
-            console.log("inside openweather map --------------------------------------")
-             console.log(results)
+         //   console.log("inside openweather map --------------------------------------")
+          //   console.log(results)
               let items=[];
               let arrayList = results.daily;
               for(let i=0; i<5;i++){
@@ -77,7 +77,7 @@ export default class Weather extends Component{
                 items.push(arrayList[i]);
                 }
                 this.setState({fiveDayData:items});
-             //   console.log("fiveDayData",this.state.fiveDayData);
+                console.log("fiveDayData",this.state.fiveDayData);
                 this.setState({isloaded:true})
 
           })
@@ -91,7 +91,7 @@ export default class Weather extends Component{
              return this.state.fiveDayData.map((item, index) => { return(
               <>
               <h3> Day :{index}</h3>
-              <SingleDay {... item}/>
+              <SingleEntry {... item}/>
               </> 
               ) }) 
               }
@@ -140,9 +140,9 @@ export default class Weather extends Component{
           console.log("one day data" ,this.state.onedayData)
          
           let headline = this.state.onedayData["current"];
-          console.log("headline.dt: ",headline.dt)
+       //   console.log("headline.dt: ",headline.dt)
           const date = new Date(headline.dt);
-          console.log("Date is:",date)
+       //   console.log("Date is:",date)
           let day = date.getDay();
           const tempC = headline.temp;
 
@@ -154,9 +154,6 @@ export default class Weather extends Component{
                   <div className='headline'>
                       <h3>Date: {DaysOfweek[day] }  </h3>
                       <h4>Temperature : {tempCF} F</h4><br></br>
-
-                  </div>
-                  <div className='details'>
                       <React.Fragment>
                       {
                         Object.keys(forecasts).map((item,index)=>{return (
@@ -164,10 +161,22 @@ export default class Weather extends Component{
                         )}) 
              
                       }
-
-            </React.Fragment>                                             
+                      <br></br>
+                    </React.Fragment>    
                   </div>
- 
+                  <div className='details'>
+                     <h3>Hourly Forecast</h3>
+                     <React.Fragment>
+                      {
+                        Object.keys( this.state.onedayData["hourly"]).map((item,index)=>{return (
+                        <HourlyForecast key={index} value={item} data={ this.state.onedayData["hourly"][item]}/>
+                        )}) 
+             
+                      }
+
+                    </React.Fragment>                                            
+                  </div>
+                
                 </div>  
               )
             }
@@ -180,21 +189,35 @@ export default class Weather extends Component{
             }
         }
      }
- 
-     class SingleDay extends Component{
+     class HourlyForecast extends Component{
+      render(){
+        console.log("inside hourly forecast");
+          const tempK = this.props.data.temp;
+          const tempKtoF = (((tempK-273.15)*1.8)+32).toFixed(2)
+         return(
+           <React.Fragment>
+             <h3>Hour: {this.props.value}</h3>
+             <h3>Temperature: {tempKtoF} F</h3>
+              <DayIcons data={this.props.data["weather"][0]}/>
+              </React.Fragment>
+        )
+      }
+     }
+    
+     class SingleEntry extends Component{
        render(){
-         console.log("inside SingleDay item")
-        console.log(this.props)
+         console.log("inside SingleEntry item")
+      //  console.log(this.props)
           const date = new Date(this.props.dt);
-          console.log("SingleDay date:",date)
+       //   console.log("SingleEntry date:",date)
           let day = date.getDay();
-          console.log("SingleDay day is",day)
+      //    console.log("SingleEntry day is",day)
           const tempMin = this.props.temp["min"];
           const tempMax = this.props.temp["max"];
           const tempMinF = (((tempMin-273.15)*1.8)+32).toFixed(2)
           const tempMaxF = (((tempMax-273.15)*1.8)+32).toFixed(2)
 
-          console.log("Day of week is",day)
+      //    console.log("Day of week is",day)
          return(
            <React.Fragment>
              <h3>Day: {DaysOfweek[day]}</h3>
@@ -219,10 +242,10 @@ export default class Weather extends Component{
     class DayIcons extends Component{
       render(){
         console.log("inside DayIcons item")
-         console.log("this.props.data",this.props.data)
+     //    console.log("this.props.data",this.props.data)
             let url = `http://openweathermap.org/img/wn/${this.props.data.icon}@2x.png`;
             
-            console.log("url",url)
+      //      console.log("url",url)
             return(
               <React.Fragment>
                 <img src={url} alt='icon' width='100px' height='100px'/>
