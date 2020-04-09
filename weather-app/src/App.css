@@ -102,7 +102,7 @@ h2{
 }
 .hourly{
   display:grid;
-  grid-auto-flow: column;
+  grid-auto-flow: row;
   overflow-y: visible;
   grid-template-columns: repeat(6,1fr);
   grid-template-rows: repeat(8,1fr);
