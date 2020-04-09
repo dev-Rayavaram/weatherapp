@@ -64,12 +64,15 @@ html,body{
 h1{
   color:white
 }
+
 .footer{
   align-items: baseline;
 }
 .headline{
-  display: inline;
+  display:flex;
+  flex-direction: row;
 }
 .details{
-  display:block;
+  display:flex;
+  flex-direction: column;
 }
