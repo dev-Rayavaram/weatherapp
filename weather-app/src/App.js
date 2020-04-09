@@ -2,7 +2,7 @@ import React,{Component} from 'react';
 import './App.css';
 import Footer from './components/footer.js'
 import Weather from './components/weather.js'
-import Header from './components/Header.js'
+import Header from './components/header.js'
 
 class App extends Component {
   constructor(props){
