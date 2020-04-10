@@ -1,6 +1,7 @@
 import React,{Component} from 'react';
 import {Route,Switch,Link,BrowserRouter as Router} from 'react-router-dom'
 import axios from 'axios';
+
 let daysOfWeek=["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
 export default class Weather extends Component{
     constructor(props){
@@ -25,19 +26,49 @@ export default class Weather extends Component{
             <nav>
                 <ul>
                   <li>
-                  <Link to="/day"  style={this.props.style} onClick={()=>this.onMouseClick('5day')} >5 day Forecast</Link>
+                  <Link to="/"  style={this.props.style} onClick={()=>this.onMouseClick('5day')} >5 day Forecast</Link>
                 </li>
                 <li>
-                  <Link to="/"  style={this.props.style} onClick={()=>this.onMouseClick('oneday')}>Hourly Forecast</Link>
+                  <Link to="/Monday"  style={this.props.style} >Monday</Link>
                 </li>
+                <li>
+                  <Link to="/Tuesday"  style={this.props.style} >Tuesday</Link>
+                </li>
+                <li>
+                  <Link to="/Wednesday"  style={this.props.style} >Wednesday</Link>
+                </li>
+                <li>
+                  <Link to="/Thursday"  style={this.props.style} >Thursday</Link>
+                </li>
+                <li>
+                  <Link to="/Friday"  style={this.props.style} >Friday</Link>
+                </li>
+                <li>
+                  <Link to="/Saturday"  style={this.props.style}>Saturday</Link>
+                </li>
+                <li>
+                  <Link to="/Sunday"  style={this.props.style} >Sunday</Link>
+                </li>
+
                  </ul>
             </nav>
             <Switch>
-                <Route exact path="/day" component={FiveDays}>          
+                <Route exact path="/" component={FiveDays}>          
                 </Route>
-                <Route exact path="/" component={OneDay}>          
+                <Route exact path="/Monday" component={Monday}>          
                 </Route>
-              
+                <Route exact path="/Tuesday" component={Tuesday}>          
+                </Route>
+                <Route exact path="/Wednesday" component={Wednesday}>          
+                </Route> 
+                 <Route exact path="/Thursday" component={Thursday}>          
+                </Route> 
+                 <Route exact path="/Friday" component={Friday}>          
+                </Route> 
+                 <Route exact path="/Saturday" component={Saturday}>          
+                </Route> 
+                 <Route exact path="/Sunday" component={Sunday}>          
+                </Route>             
             </Switch>
            </div>
          </Router>
@@ -134,7 +165,15 @@ export default class Weather extends Component{
         .then(res => {
           const results = res.data;
       //    console.log(results);
-          this.setState({onedayData:results});
+            let items=[];
+            console.log(" results for 24 hours :",results)
+            let arrayList = results["hourly"];
+            for(let i=0; i<24;i++){
+                //  console.log(items[i].sectionName)
+                items.push(arrayList[i]);
+            }
+
+          this.setState({onedayData:items});
           this.setState({isloaded:true})
           
         })
@@ -145,36 +184,15 @@ export default class Weather extends Component{
       }       
       render(){
         if(this.state.isloaded){
-          console.log("one day data" ,this.state.onedayData)
-         
-          let headline = this.state.onedayData["current"];
-       //   console.log("headline.dt: ",headline.dt)
-          const tempC = headline.temp;
-
-          const tempCF = (((tempC-273.15)*1.8)+32).toFixed(2);
-          let forecasts = this.state.onedayData["current"]["weather"];
 
               return(
                 <div className='body'>
-                      <h2>Forecast for Next 48 Hours:<br></br></h2>
-
-                  <div className='headline'>
-                      <h4> Current temperature : {tempCF} F</h4><br></br>
-                      <React.Fragment>
-                      {
-                        Object.keys(forecasts).map((item,index)=>{return (
-                        <DayIcons key={index} value={item} data={forecasts[item]}/>
-                        )}) 
-             
-                      }
-                      <br></br>
-                    </React.Fragment>    
-                  </div>
+                  <h2>{this.props.name} hourly forecast:<br></br></h2>
                   <div className='hourly'>
                      <React.Fragment>
                       {
-                        Object.keys( this.state.onedayData["hourly"]).map((item,index)=>{return (
-                        <HourlyForecast key={index} value={item} data={ this.state.onedayData["hourly"][item]}/>
+                        Object.keys( this.state.onedayData).map((item,index)=>{return (
+                        <HourlyForecast key={index} value={item} data={ this.state.onedayData[item]}/>
                         )}) 
              
                       }
@@ -245,4 +263,64 @@ export default class Weather extends Component{
        }
     
     }
-  
+
+    class Monday extends Component {
+        render(){
+            return (
+               <OneDay name={"Monday"}/>
+              );
+        }
+     
+    }
+    
+
+    class Tuesday extends Component {
+        render(){
+            return (
+              <OneDay name={"Tuesday"}/>
+
+              );
+        }
+     
+    }
+    
+    class  Wednesday extends Component {
+      render(){
+          return (
+                 <OneDay name={"Wednesday"}/>
+            );
+      }
+   
+  }   
+  class Thursday extends Component {
+    render(){
+        return (
+          <OneDay name={"Thursday"}/>
+          );
+    }
+ 
+}
+class  Friday extends Component {
+  render(){
+      return (
+        <OneDay name={"Friday"}/>
+        );
+  }
+
+}
+class Saturday extends Component {
+  render(){
+      return (
+          <OneDay name={"Saturday"}/>
+        );
+  }
+
+}
+class Sunday extends Component {
+  render(){
+      return (
+        <OneDay name={"Sunday"}/>
+        );
+  }
+
+}
