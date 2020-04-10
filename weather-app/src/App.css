@@ -21,13 +21,20 @@ html,body{
   width:100%;
   display: flex;
   float: left;
-  flex-direction: column;
+  flex-direction: row;
   justify-content:center;
   flex:20% 80%;
   flex-flow: wrap;
   border: 1px solid black;
   background-color: honeydew;
 
+}
+.page{
+  height:100%;
+  width:100%;
+  display: flex;
+  flex-direction: column;
+  rows: 20% 80%;
 }
 .body{
   background-color:lavender;
@@ -39,6 +46,7 @@ html,body{
   min-height: 100vh;
   min-width: 100vh;
 }
+
 .body2{
   background-color:lavender;
   height:100%;
@@ -50,8 +58,7 @@ html,body{
 }
 .left{
   display: flex;
-  flex-direction: column;
-  row-gap: 30px;
+  flex-direction: row;
 }
 .main{
   display: grid;
@@ -105,7 +112,7 @@ h2{
   grid-auto-flow: row;
   overflow-y: visible;
   grid-template-columns: repeat(6,1fr);
-  grid-template-rows: repeat(8,1fr);
+  grid-template-rows: repeat(4,1fr);
   border: 2px solid black;
 
 }
