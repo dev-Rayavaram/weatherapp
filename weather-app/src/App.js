@@ -24,7 +24,7 @@ class App extends Component {
       return (
         <div className="App">
           <Header style={this.state.style}/>
-          <div className='body'> 
+          <div className='page'> 
               <Weather  style={this.state.style}/>
 
           </div>
