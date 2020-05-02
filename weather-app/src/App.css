@@ -58,7 +58,15 @@ html,body{
 }
 .left{
   display: flex;
+  flex-direction: column;
+
+}
+.menu{
+  display: flex;
   flex-direction: row;
+}
+ul{
+  list-style: none;
 }
 .main{
   display: grid;

@@ -11,9 +11,7 @@ export default class Weather extends Component{
           fiveDayData:[],
       }
     }
-     onMouseClick=(place)=>{
 
-    }
     // let apiKey=process.env.REACT_APP_API_KEY
       //api.openweathermap.org/data/2.5/weather?q=London,uk&APPID={apikey}
       // axios.get(`api.openweathermap.org/data/2.5/weather?APPID=${apiKey}`)
@@ -22,11 +20,10 @@ export default class Weather extends Component{
         return (
  
           <Router>  
-          <div className='left'>
             <nav>
-                <ul>
+                <ul  className="menu">
                   <li>
-                  <Link to="/"  style={this.props.style} onClick={()=>this.onMouseClick('5day')} >5 day Forecast</Link>
+                  <Link to="/"  style={this.props.style} >5 day Forecast</Link>
                 </li>
                 <li>
                   <Link to="/Monday"  style={this.props.style} >Monday</Link>
@@ -70,7 +67,6 @@ export default class Weather extends Component{
                  <Route exact path="/Sunday" component={Sunday}>          
                 </Route>             
             </Switch>
-           </div>
          </Router>
             );
       }
