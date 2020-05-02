@@ -1,7 +1,7 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 # Weather App
 ### Link to Website
-[Photo App](https://zen-ramanujan-d881cf.netlify.app/)
+[Weather-app](https://zen-ramanujan-d881cf.netlify.app/)
 
 
 ## Available Scripts
