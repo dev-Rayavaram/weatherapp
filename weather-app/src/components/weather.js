@@ -151,7 +151,7 @@ export default class Weather extends Component{
       }
       componentDidMount() {
       
-        let apiKey=process.env.REACT_APP_API_KEY
+        let apiKey="3059ac536450f77bcc4b5c045e0f2148";
         axios.headers={
           'Access-Control-Allow-Origin': '*',
           'Content-Type': 'application/json',
